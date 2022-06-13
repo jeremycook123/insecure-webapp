@@ -1,6 +1,7 @@
 #!/bin/bash
 apt-get -y update
-apt-get install -y postgresql
+apt-get -y install postgresql
+apt-get -y install jq tree
 
 systemctl start postgresql.service
 

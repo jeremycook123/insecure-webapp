@@ -3,7 +3,7 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-22.04-amd64-server-*"]
   }
 
   filter {
@@ -28,7 +28,8 @@ data "template_cloudinit_config" "config" {
     #! /bin/bash
     apt-get -y update
     apt-get -y install nginx
-    apt-get -y install jq
+    apt-get -y install openjdk-18-jre
+    apt-get -y install jq tree
 
     ALB_DNS=${var.alb_dns}
     POSTGRES_PRIVATEIP=${var.postgres_ip}
@@ -56,14 +57,13 @@ data "template_cloudinit_config" "config" {
     pushd ./api
     curl -sL https://api.github.com/repos/jeremycook123/owasp-example/releases/latest | jq -r '.assets[1].browser_download_url' | xargs curl -OL
     INSTALL_FILENAME=$(curl -sL https://api.github.com/repos/jeremycook123/owasp-example/releases/latest | jq -r '.assets[1].name')
-    tar -xvzf $INSTALL_FILENAME
     #start the API up...
     POSTGRES_USER=postgres POSTGRES_PASSWORD=cloudacademy POSTGRES_DB=cloudacademy POSTGRES_HOSTPORT=$POSTGRES_PRIVATEIP:5432java -jar webapp-insecure-1.0-SNAPSHOT.jar &
-    java -jar webapp-insecure-1.0-SNAPSHOT.jar &
     popd
 
     systemctl restart nginx
     systemctl status nginx
+    
     echo fin v1.00!
 
     EOF    
@@ -82,8 +82,8 @@ resource "aws_launch_template" "apptemplate" {
     resource_type = "instance"
 
     tags = {
-      Name  = "FrontendApp"
-      Owner = "CloudAcademy"
+      Name  = "appserver"
+      Owner = "cloudacademy"
     }
   }
 
