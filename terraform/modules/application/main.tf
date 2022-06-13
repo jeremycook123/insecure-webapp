@@ -31,6 +31,7 @@ data "template_cloudinit_config" "config" {
     apt-get -y install openjdk-18-jre
     apt-get -y install jq tree
     apt-get -y install postgresql-client
+    apt-get -y install figlet
 
     ALB_DNS=${var.alb_dns}
     POSTGRES_PRIVATEIP=${var.postgres_ip}
@@ -59,7 +60,7 @@ data "template_cloudinit_config" "config" {
     curl -sL https://api.github.com/repos/jeremycook123/owasp-example/releases/latest | jq -r '.assets[1].browser_download_url' | xargs curl -OL
     #start the API up...
     echo POSTGRES_PRIVATEIP="$POSTGRES_PRIVATEIP"
-    POSTGRES_USER=postgres POSTGRES_PASSWORD=cloudacademy POSTGRES_CONNSTR="jdbc:postgresql://$POSTGRES_PRIVATEIP:5432/cloudacademy?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory" java -jar webapp-insecure-1.0-SNAPSHOT.jar &
+    (POSTGRES_USER=postgres POSTGRES_PASSWORD=cloudacademy POSTGRES_CONNSTR="jdbc:postgresql://$POSTGRES_PRIVATEIP:5432/cloudacademy?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory" java -jar webapp-insecure-1.0-SNAPSHOT.jar > output.log) &
     popd
 
     systemctl restart nginx
