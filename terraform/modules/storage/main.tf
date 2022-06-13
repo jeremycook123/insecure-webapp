@@ -25,7 +25,7 @@ resource "aws_instance" "postgres" {
   user_data = filebase64("${path.module}/install.sh")
 
   tags = {
-    Name  = "Postgres"
+    Name  = "postgresdb"
     Owner = "CloudAcademy"
   }
 }
