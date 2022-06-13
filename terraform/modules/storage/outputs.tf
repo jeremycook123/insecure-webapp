@@ -1,4 +1,4 @@
 output "private_ip" {
   description = "private ip address"
-  value       = aws_instance.mongo.private_ip
+  value       = aws_instance.postgres.private_ip
 }
