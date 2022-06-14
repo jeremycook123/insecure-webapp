@@ -10,6 +10,9 @@ sed -i "s/127\.0\.0\.1\/32/all/g" /etc/postgresql/14/main/pg_hba.conf
 systemctl restart postgresql.service
 systemctl status postgresql.service
 
+mkdir -p /cloudacademy-app
+cd /cloudacademy-app
+
 sudo -i -u postgres psql -c "ALTER USER postgres PASSWORD 'cloudacademy';"
 sudo -i -u postgres psql -c "CREATE DATABASE cloudacademy;"
 
@@ -27,6 +30,6 @@ INSERT INTO comments (id, username, body, created_on) VALUES ('$(uuidgen)', 'ali
 INSERT INTO comments (id, username, body, created_on) VALUES ('$(uuidgen)', 'joe', 'lets roll', current_timestamp);
 EOF
 
-sudo -i -u postgres psql -d cloudacademy -f dbsetup.sql
+sudo -i -u postgres psql -d cloudacademy -f /cloudacademy-app/dbsetup.sql
 
 echo fin v1.01!
