@@ -17,14 +17,14 @@ sudo -i -u postgres psql -c "CREATE TABLE IF NOT EXISTS users(user_id VARCHAR (3
 sudo -i -u postgres psql -c "CREATE TABLE IF NOT EXISTS comments(id VARCHAR (36) PRIMARY KEY, username VARCHAR (36), body VARCHAR (500), created_on TIMESTAMP NOT NULL);"
 
 #insert USERS seed data 
-sudo -i -u postgres psql -c "INSERT INTO users (user_id, username, password, created_on) VALUES ('$(uuidgen)', 'admin', 'secretpassword', current_timestamp);"
-sudo -i -u postgres psql -c "INSERT INTO users (user_id, username, password, created_on) VALUES ('$(uuidgen)', 'alice', 'secretpassword', current_timestamp);"
-sudo -i -u postgres psql -c "INSERT INTO users (user_id, username, password, created_on) VALUES ('$(uuidgen)', 'bob', 'secretpassword', current_timestamp);"
-sudo -i -u postgres psql -c "INSERT INTO users (user_id, username, password, created_on) VALUES ('$(uuidgen)', 'joe', 'secretpassword', current_timestamp);"
+sudo -i -u postgres psql -c "INSERT INTO users (user_id, username, password, created_on) VALUES ('$(uuidgen)', 'admin', '$(echo secretpassword | md5sum | cut -b-32)', current_timestamp);"
+sudo -i -u postgres psql -c "INSERT INTO users (user_id, username, password, created_on) VALUES ('$(uuidgen)', 'alice', '$(echo password | md5sum | cut -b-32)', current_timestamp);"
+sudo -i -u postgres psql -c "INSERT INTO users (user_id, username, password, created_on) VALUES ('$(uuidgen)', 'bob', '$(echo password | md5sum | cut -b-32)', current_timestamp);"
+sudo -i -u postgres psql -c "INSERT INTO users (user_id, username, password, created_on) VALUES ('$(uuidgen)', 'joe', '$(echo password | md5sum | cut -b-32)', current_timestamp);"
 
 #insert COMMENTS seed data 
 sudo -i -u postgres psql -c "INSERT INTO comments (id, username, body, created_on) VALUES ('$(uuidgen)', 'bob', 'good times ahead', current_timestamp);"
 sudo -i -u postgres psql -c "INSERT INTO comments (id, username, body, created_on) VALUES ('$(uuidgen)', 'alice', 'security review required', current_timestamp);"
-sudo -i -u postgres psql -c "INSERT INTO comments (id, username, body, created_on) VALUES ('$(uuidgen)', 'joe', 'lets go!', current_timestamp);"
+sudo -i -u postgres psql -c "INSERT INTO comments (id, username, body, created_on) VALUES ('$(uuidgen)', 'joe', 'lets roll', current_timestamp);"
 
 echo fin v1.00!
