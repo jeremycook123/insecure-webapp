@@ -89,6 +89,10 @@ resource "aws_launch_template" "apptemplate" {
     }
   }
 
+  iam_instance_profile {
+    name = var.iam_instance_profile_name
+  }  
+
   user_data = base64encode(data.template_cloudinit_config.config.rendered)
 }
 
@@ -102,6 +106,8 @@ resource "aws_autoscaling_group" "asg" {
   min_size         = var.asg_min_size
 
   target_group_arns = var.target_group_arns
+
+  force_delete = true
 
   launch_template {
     id      = aws_launch_template.apptemplate.id

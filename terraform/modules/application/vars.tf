@@ -19,3 +19,5 @@ variable "asg_min_size" {
 variable "subnets" {}
 variable "alb_dns" {}
 variable "target_group_arns" {}
+
+variable "iam_instance_profile_name" {}

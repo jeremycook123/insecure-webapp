@@ -42,3 +42,7 @@ variable "web_target_group_arn" {
 variable "api_target_group_arn" {
   type = string
 }
+
+variable "iam_instance_profile_name" {
+  type = string
+}
