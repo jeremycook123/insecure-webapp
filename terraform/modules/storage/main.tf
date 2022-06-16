@@ -21,7 +21,7 @@ resource "aws_instance" "postgres" {
   key_name                    = var.key_name
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [var.sg_id]
-  associate_public_ip_address = false
+  associate_public_ip_address = true
 
   user_data = filebase64("${path.module}/install.sh")
 

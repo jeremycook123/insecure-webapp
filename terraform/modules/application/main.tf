@@ -80,7 +80,7 @@ resource "aws_launch_template" "apptemplate" {
   key_name               = var.key_name
 
   network_interfaces {
-    associate_public_ip_address = false
+    associate_public_ip_address = true
     security_groups = [var.webserver_sg_id]
   }
 
