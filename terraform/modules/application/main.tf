@@ -78,10 +78,10 @@ resource "aws_launch_template" "apptemplate" {
   image_id               = data.aws_ami.ubuntu.id
   instance_type          = var.instance_type
   key_name               = var.key_name
-  vpc_security_group_ids = [var.webserver_sg_id]
 
   network_interfaces {
     associate_public_ip_address = false
+    security_groups = [var.webserver_sg_id]
   }
 
   tag_specifications {
