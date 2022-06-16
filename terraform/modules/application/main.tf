@@ -3,7 +3,7 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
   filter {
@@ -28,7 +28,8 @@ data "template_cloudinit_config" "config" {
     #! /bin/bash
     apt-get -y update
     apt-get -y install nginx
-    apt-get -y install openjdk-18-jre
+    # apt-get -y install openjdk-18-jre
+    apt-get -y install openjdk-17-jre-headless
     apt-get -y install jq tree
     apt-get -y install postgresql-client
     apt-get -y install figlet
