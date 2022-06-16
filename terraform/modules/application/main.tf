@@ -80,6 +80,10 @@ resource "aws_launch_template" "apptemplate" {
   key_name               = var.key_name
   vpc_security_group_ids = [var.webserver_sg_id]
 
+  network_interfaces {
+    associate_public_ip_address = false
+  }
+
   tag_specifications {
     resource_type = "instance"
 
@@ -91,7 +95,7 @@ resource "aws_launch_template" "apptemplate" {
 
   iam_instance_profile {
     name = var.iam_instance_profile_name
-  }  
+  }
 
   user_data = base64encode(data.template_cloudinit_config.config.rendered)
 }
