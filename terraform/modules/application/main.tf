@@ -43,8 +43,8 @@ data "template_cloudinit_config" "config" {
     echo FRONTEND - download latest release and install...
     mkdir -p ./frontend
     pushd ./frontend
-    curl -sL https://api.github.com/repos/jeremycook123/owasp-example/releases/latest | jq -r '.assets[0].browser_download_url' | xargs curl -OL
-    INSTALL_FILENAME=$(curl -sL https://api.github.com/repos/jeremycook123/owasp-example/releases/latest | jq -r '.assets[0].name')
+    curl -sL https://api.github.com/repos/cloudacademy/insecure-webapp/releases/latest | jq -r '.assets[0].browser_download_url' | xargs curl -OL
+    INSTALL_FILENAME=$(curl -sL https://api.github.com/repos/cloudacademy/insecure-webapp/releases/latest | jq -r '.assets[0].name')
     tar -xvzf $INSTALL_FILENAME
     rm -rf /var/www/html
     cp -R build /var/www/html
@@ -57,11 +57,11 @@ data "template_cloudinit_config" "config" {
     echo API - download latest release, install, and start...
     mkdir -p ./api
     pushd ./api
-    curl -sL https://api.github.com/repos/jeremycook123/owasp-example/releases/latest | jq -r '.assets[1].browser_download_url' | xargs curl -OL
+    curl -sL https://api.github.com/repos/cloudacademy/insecure-webapp/releases/latest | jq -r '.assets[1].browser_download_url' | xargs curl -OL
     #start the API up...
     echo POSTGRES_PRIVATEIP="$POSTGRES_PRIVATEIP"
     java -version
-    (POSTGRES_USER=postgres POSTGRES_PASSWORD=cloudacademy POSTGRES_CONNSTR="jdbc:postgresql://$POSTGRES_PRIVATEIP:5432/cloudacademy?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory" java -jar webapp-insecure-1.0-SNAPSHOT.jar > output.log) &
+    (POSTGRES_USER=postgres POSTGRES_PASSWORD=cloudacademy POSTGRES_CONNSTR="jdbc:postgresql://$POSTGRES_PRIVATEIP:5432/cloudacademy?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory" java -jar insecure-webapp-1.0-SNAPSHOT.jar > output.log) &
     popd
 
     systemctl restart nginx
